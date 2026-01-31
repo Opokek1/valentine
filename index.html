@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Receipt for Angelina (58mm)</title>
+    <link href="https://fonts.googleapis.com/css2?family=VT323&display=swap" rel="stylesheet">
+    <style>
+        /* Reset & Base */
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #e0e0e0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            min-height: 100vh;
+            margin: 0;
+            padding-top: 20px;
+            font-family: 'VT323', monospace;
+            -webkit-print-color-adjust: exact;
+            color: #000;
+        }
+
+        /* Container Struk 58mm */
+        .receipt {
+            background-color: #fff;
+            width: 58mm;
+            /* Lebar fisik kertas thermal */
+            min-height: 200px;
+            padding: 10px 2px;
+            /* Margin kiri-kanan sangat tipis agar teks muat */
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            position: relative;
+            font-size: 15px;
+            /* DINAIPKAN dari 12px ke 15px */
+            line-height: 1.1;
+            font-weight: bold;
+            /* Sedikit lebih tebal agar jelas saat diprint */
+        }
+
+        /* Hiasan gerigi */
+        .receipt::before,
+        .receipt::after {
+            content: "";
+            position: absolute;
+            left: 0;
+            width: 100%;
+            height: 6px;
+            background: linear-gradient(135deg, transparent 50%, #fff 50%),
+                linear-gradient(45deg, #fff 50%, transparent 50%);
+            background-size: 12px 12px;
+        }
+
+        .receipt::before {
+            top: -6px;
+            transform: rotate(180deg);
+        }
+
+        .receipt::after {
+            bottom: -6px;
+        }
+
+        /* Typography */
+        .center {
+            text-align: center;
+        }
+
+        .left {
+            text-align: left;
+        }
+
+        .right {
+            text-align: right;
+        }
+
+        .uppercase {
+            text-transform: uppercase;
+        }
+
+        .bold {
+            font-weight: 900;
+        }
+
+        h2 {
+            margin: 5px 0 2px 0;
+            font-size: 24px;
+            /* DINAIPKAN dari 20px */
+            letter-spacing: 1px;
+            font-weight: 900;
+        }
+
+        p {
+            margin: 2px 0;
+            font-size: 15px;
+        }
+
+        /* DINAIPKAN */
+        small {
+            font-size: 13px;
+        }
+
+        /* DINAIPKAN */
+
+        .divider {
+            border-top: 2px dashed #000;
+            /* Lebih tebal */
+            margin: 8px 0;
+        }
+
+        /* Tabel Item */
+        .items-table {
+            width: 100%;
+            font-size: 15px;
+            /* DINAIPKAN */
+            border-collapse: collapse;
+        }
+
+        .items-table td {
+            padding: 3px 0;
+            vertical-align: top;
+        }
+
+        /* Kolom diatur */
+        .qty {
+            width: 12%;
+            text-align: left;
+        }
+
+        .item-name {
+            width: 63%;
+            text-align: left;
+            padding-right: 2px;
+        }
+
+        .price {
+            width: 25%;
+            text-align: right;
+            white-space: nowrap;
+        }
+
+        .total-section {
+            margin-top: 5px;
+            font-size: 16px;
+            /* Lebih besar untuk total */
+        }
+
+        /* QR Code */
+        .qr-section {
+            margin-top: 15px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .qr-border {
+            border: 2px solid #000;
+            padding: 4px;
+            display: inline-block;
+            background: #fff;
+        }
+
+        .qr-code {
+            width: 120px;
+            /* Sedikit diperbesar */
+            height: 120px;
+            display: block;
+        }
+
+        .footer-msg {
+            margin-top: 10px;
+            font-size: 14px;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* --- PRINT SETTINGS KHUSUS 58mm --- */
+        @page {
+            size: 58mm auto;
+            margin: 0;
+        }
+
+        @media print {
+            body {
+                background: none;
+                display: block;
+                margin: 0;
+                padding: 0;
+            }
+
+            .receipt {
+                width: 100%;
+                box-shadow: none;
+                padding: 0 1px;
+                /* Gunakan seluruh lebar kertas */
+                margin: 0;
+                font-size: 15px;
+                /* Pastikan font tetap besar saat print */
+            }
+
+            .receipt::before,
+            .receipt::after,
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="receipt">
+        <!-- Header Toko -->
+        <div class="center">
+            <h2>HIGANBANA</h2>
+            <p class="uppercase bold">Memory Archive</p>
+            <p>08-NYOM-NYOM</p>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Detail Transaksi -->
+        <div>
+            <table style="width: 100%">
+                <tr>
+                    <td>14/02/26</td>
+                    <td class="right">23:59</td>
+                </tr>
+                <tr>
+                    <td>CSR: MANTAN</td>
+                    <td class="right">#143</td>
+                </tr>
+                <tr>
+                    <td colspan="2" class="uppercase">CUST: ANGELINA</td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="divider"></div>
+
+        <!-- Daftar Belanjaan -->
+        <table class="items-table">
+            <thead>
+                <tr style="font-style: italic; border-bottom: 2px solid #000;">
+                    <td class="qty">Q</td>
+                    <td class="item-name">ITEM</td>
+                    <td class="price">AMT</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td class="qty">1</td>
+                    <td class="item-name">Coklat Manis</td>
+                    <td class="price">Love</td>
+                </tr>
+                <tr>
+                    <td class="qty">1</td>
+                    <td class="item-name">Coklat Lagi</td>
+                    <td class="price">Peace</td>
+                </tr>
+                <tr>
+                    <td class="qty">∞</td>
+                    <td class="item-name">Coklat Terusss<br><small>(Fav Nyom)</small></td>
+                    <td class="price">Happy</td>
+                </tr>
+                <tr>
+                    <td class="qty">1</td>
+                    <td class="item-name">Spider Lily Gift</td>
+                    <td class="price">Free</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- Total -->
+        <table class="items-table total-section bold">
+            <tr>
+                <td>ITEM: 4</td>
+                <td class="right">TOTAL: IKHLAS</td>
+            </tr>
+            <tr>
+                <td colspan="2" class="right">CHANGE: DOA</td>
+            </tr>
+        </table>
+
+        <div class="divider"></div>
+
+        <!-- QR Code Section -->
+        <div class="qr-section">
+            <p style="margin-bottom: 5px; font-size: 12px;" class="bold">SCAN FOR SURPRISE</p>
+            <div class="qr-border">
+                <img src="https://api.qrserver.com/v1/create-qr-code/?size=120x120&color=000000&bgcolor=ffffff&data=https://opokek1.github.io/valentine/web"
+                    alt="QR Code" class="qr-code">
+            </div>
+        </div>
+
+        <div class="footer-msg">
+            <p class="bold" style="font-size: 16px;">TERIMA KASIH</p>
+            <p style="font-size: 12px;">Simpan sebagai kenangan.</p>
+            <br>
+            <p style="font-size: 12px;">||| || ||| || ||||</p>
+        </div>
+
+    </div>
+
+    <!-- Tombol Print -->
+    <div class="no-print" style="position: fixed; bottom: 20px; right: 20px;">
+        <button onclick="window.print()"
+            style="padding: 10px 15px; background: #b91c1c; color: white; border: none; border-radius: 5px; cursor: pointer; font-family: sans-serif; font-weight: bold; font-size: 14px; box-shadow: 0 2px 5px rgba(0,0,0,0.3);">🖨️
+            PRINT 58MM</button>
+    </div>
+
+</body>
+
+</html>
